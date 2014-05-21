@@ -1,0 +1,8 @@
+{
+    "name":"madebydavid/age-verify",
+    "description":"Fork of Chase Wiseman's excellent plugin - created so we can customize the structure of the form etc.",
+    "type":"wordpress-plugin",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+}
