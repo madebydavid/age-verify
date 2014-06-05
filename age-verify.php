@@ -176,7 +176,9 @@ class Age_Verify {
 	 * @since 0.1
 	 * @access public
 	 */
-	public function custom_styles() { ?>
+	public function custom_styles() { 
+	   return;
+	    ?>
 		
 		<style type="text/css">
 			
