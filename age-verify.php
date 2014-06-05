@@ -115,7 +115,7 @@ class Age_Verify {
 		endif;
 		
 		// Maybe display the overlay
-		add_action( 'wp_footer', array( $this, 'verify_overlay' ) );
+		add_action( 'age_verify_overlay', array( $this, 'verify_overlay' ) );
 		
 		// Maybe hide the content of a restricted content type
 		add_action( 'the_content', array( $this, 'restrict_content' ) );
@@ -205,7 +205,7 @@ class Age_Verify {
 			return; ?>
 		
 		<div id="av-overlay-wrap">
-			
+
 			<?php do_action( 'av_before_modal' ); ?>
 			
 			<div id="av-overlay">
