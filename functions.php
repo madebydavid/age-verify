@@ -281,6 +281,10 @@ function av_verify_form() {
  */
 function av_get_verify_form() {
 	
+    /* this is a crude hack */
+    $GLOBALS['av_error'] = false;
+    
+    
 	$input_type = av_get_input_type();
 	
 	$submit_button_label = apply_filters( 'av_form_submit_label', __( 'Enter Site &raquo;', 'age_verify' ) );
@@ -303,14 +307,18 @@ function av_get_verify_form() {
 			$error_string = apply_filters( 'av_error_text_not_checked', __( 'Check the box to confirm your age before continuing', 'age_verify' ) );
 		
 		// Visitor isn't old enough
-		if ( $error == 3 )
-			$error_string = apply_filters( 'av_error_text_too_young', __( 'Sorry, it doesn\'t look like you\'re old enough', 'age_verify' ) );
+		if ( $error == 3 ) {
+			$error_string = apply_filters( 'av_error_text_too_young', __( 'Sorry you\'re not old enough to visit this website, You will be redirected to drinkaware.co.uk, for facts about alcohol.', 'age_verify' ) );
+			$GLOBALS['av_redirect'] =  true;
+		}
 		
 		// Visitor entered an invalid date
 		if ( $error == 4 )
 			$error_string = apply_filters( 'av_error_text_bad_date', __( 'Please enter a valid date', 'age_verify' ) );
 		
-		$form .= '<p class="error">' . esc_html( $error_string ) . '</p>';
+		//$form .= '<p class="error">' . esc_html( $error_string ) . '</p>';
+		$GLOBALS['av_error'] =  $error_string;
+		
 		
 	endif;
 	
@@ -386,6 +394,19 @@ function av_get_verify_form() {
 	
 	return apply_filters( 'av_verify_form', $form );
 }
+
+
+function av_footer_alert_errors() {
+    if (0 !== strlen($errors = $GLOBALS['av_error'])) {
+        echo '<script>alert("' . $errors .'");</script>';
+    }
+    if (true === $GLOBALS['av_redirect']) {
+        echo '<script>window.location.href="http://www.drinkaware.co.uk/why-am-i-here";</script>';
+    }
+}
+
+add_action('wp_footer', 'av_footer_alert_errors');
+
 
 
 /***********************************************************/
