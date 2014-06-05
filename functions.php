@@ -126,7 +126,6 @@ function av_needs_verification() {
 	
 	// Assume the visitor needs to be verified
 	$return = true;
-	error_log(get_queried_object_id());
 	
 	if ('1' === get_post_meta(get_queried_object_id(), 'dont_display_age_gate', true)) {
 	    return false;
