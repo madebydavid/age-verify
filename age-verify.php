@@ -210,7 +210,7 @@ class Age_Verify {
 			
 			<div id="av-overlay">
 				
-				<h1><?php esc_html_e( av_get_the_heading() ); ?></h1>
+				<h1><?php echo av_get_the_heading() ?></h1>
 				
 				<?php if ( av_get_the_desc() )
 					echo '<p>' . esc_html( av_get_the_desc() ). '</p>'; ?>

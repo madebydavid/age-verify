@@ -359,7 +359,8 @@ function av_get_verify_form() {
 		// If set to date inputs
 		case 'inputs' :
 			
-			$form .= '<p><input type="text" name="av_verify_m" id="av_verify_m" maxlength="2" value="" placeholder="MM" /> - <input type="text" name="av_verify_d" id="av_verify_d" maxlength="2" value="" placeholder="DD" /> - <input type="text" name="av_verify_y" id="av_verify_y" maxlength="4" value="" placeholder="YYYY" /></p>';
+			//$form .= '<p><input type="text" name="av_verify_m" id="av_verify_m" maxlength="2" value="" placeholder="MM" /> - <input type="text" name="av_verify_d" id="av_verify_d" maxlength="2" value="" placeholder="DD" /> - <input type="text" name="av_verify_y" id="av_verify_y" maxlength="4" value="" placeholder="YYYY" /></p>';
+			$form .= '<input type="text" name="av_verify_d" id="av_verify_d" maxlength="2" value="" placeholder="00" /><input type="text" name="av_verify_m" id="av_verify_m" maxlength="2" value="" placeholder="00" /><input type="text" name="av_verify_y" id="av_verify_y" maxlength="2" value="" placeholder="00" />';
 			
 			break;
 			
@@ -376,9 +377,10 @@ function av_get_verify_form() {
 	
 	do_action( 'av_form_after_inputs' );
 	
-	$form .= '<p class="submit"><label for="av_verify_remember"><input type="checkbox" name="av_verify_remember" id="av_verify_remember" value="1" /> ' . esc_html__( 'Remember me', 'age_verify' ) . '</label> ';
 	
-	$form .= '<input type="submit" name="av_verify" id="av_verify" value="' . esc_attr( $submit_button_label ) . '" /></p>';
+	$form .= '<input type="submit" name="av_verify" id="av_verify" value="" />';
+	
+	$form .= '<p class="remember"><label for="av_verify_remember"><input type="checkbox" name="av_verify_remember" id="av_verify_remember" value="1" /> ' . esc_html__( 'Remember me', 'age_verify' ) . '</label></p>';
 	
 	$form .= '</form>';
 	
