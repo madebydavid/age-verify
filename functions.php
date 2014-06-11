@@ -372,8 +372,11 @@ function av_get_verify_form() {
 		case 'inputs' :
 			
 			//$form .= '<p><input type="text" name="av_verify_m" id="av_verify_m" maxlength="2" value="" placeholder="MM" /> - <input type="text" name="av_verify_d" id="av_verify_d" maxlength="2" value="" placeholder="DD" /> - <input type="text" name="av_verify_y" id="av_verify_y" maxlength="4" value="" placeholder="YYYY" /></p>';
-			$form .= '<input type="text" name="av_verify_d" id="av_verify_d" maxlength="2" value="" placeholder="00" /><input type="text" name="av_verify_m" id="av_verify_m" maxlength="2" value="" placeholder="00" /><input type="text" name="av_verify_y" id="av_verify_y" maxlength="2" value="" placeholder="00" />';
-			
+			$form .= <<<HTML
+			<input type="text" name="av_verify_d" id="av_verify_d" maxlength="2" value="" placeholder="00" autocomplete="off" />
+			<input type="text" name="av_verify_m" id="av_verify_m" maxlength="2" value="" placeholder="00" autocomplete="off" />
+			<input type="text" name="av_verify_y" id="av_verify_y" maxlength="2" value="" placeholder="00" autocomplete="off" />
+HTML;
 			break;
 			
 		// If just a simple checkbox
