@@ -10,11 +10,8 @@
 }
 
 #av-overlay {
-	position: fixed; 
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 	background: white;
 	z-index: 10001;
 	padding: 30px 40px 34px;
@@ -49,16 +46,3 @@
 	        border-radius: 3px;
 }
 
-/* Minimum width of 400 pixels. */
-@media screen and (min-width: 400px) {
-	
-	#av-overlay {
-		position: relative;
-		top: auto;
-		left: auto;
-		width: 40%;
-		height: auto;
-		margin: 100px auto 0 auto;
-	}
-	
-}
