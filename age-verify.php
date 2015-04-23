@@ -131,6 +131,10 @@ class Age_Verify {
 			add_action( 'register_post', 'av_register_check', 10, 3 );
 			
 		endif;
+		
+		add_action('wp_ajax_verify_age', array($this, 'ajaxVerify'));
+		add_action('wp_ajax_nopriv_verify_age', array($this, 'ajaxVerify'));
+		
 	}
 	
 	/**
@@ -331,6 +335,93 @@ class Age_Verify {
 			
 		endif;
 	}
+
+	/**
+	 * Verify via AJAX
+	 *
+	 * @access public
+	 */
+	public function ajaxVerify() {
+		
+       	header( "Content-Type: application/json" );
+		
+		
+		if ( empty( $_POST ) || ! wp_verify_nonce( $_POST['av-nonce'], 'verify-age' ) ) {
+			echo json_encode(array('status' => 'Invalid'));
+        	die();
+		}
+		
+		$redirect_url = remove_query_arg( array( 'age-verified', 'verify-error' ), wp_get_referer() );
+		
+		$is_verified  = false;
+		
+		$error = 1; // Catch-all in case something goes wrong
+		
+		$input_type   = av_get_input_type();
+		
+		switch ( $input_type ) {
+			
+			
+			case 'checkbox' :
+				
+				if ( isset( $_POST['av_verify_confirm'] ) && (int) $_POST['av_verify_confirm'] == 1 )
+					$is_verified = true;
+				else
+					$error = 2; // Didn't check the box
+				
+				break;
+			
+			default :
+				
+				if ( checkdate( (int) $_POST['av_verify_m'], (int) $_POST['av_verify_d'], (int) $_POST['av_verify_y'] ) ) :
+					
+					$age = av_get_visitor_age( $_POST['av_verify_y'], $_POST['av_verify_m'], $_POST['av_verify_d'] );
+					
+				    if ( $age >= av_get_minimum_age() )
+						$is_verified = true;
+					else
+						$error = 3; // Not old enough
+						
+				else :
+					
+					$error = 4; // Invalid date
+					
+				endif;
+				
+				break;
+		}
+		
+		$is_verified = apply_filters( 'av_passed_verify', $is_verified );
+		
+		if ( $is_verified == true ) :
+			
+			do_action( 'av_was_verified' );
+			
+			if ( isset( $_POST['av_verify_remember'] ) )
+				$cookie_duration = time() +  ( av_get_cookie_duration() * 60 );
+			else
+				$cookie_duration = 0;
+			
+			setcookie( 'age-verified', 1, $cookie_duration, COOKIEPATH, COOKIE_DOMAIN, false );
+			
+			echo json_encode(array('status' => 'ok'));
+        	die();
+			
+			
+		else :
+			
+			do_action( 'av_was_not_verified' );
+			
+			echo json_encode(array(
+				'status' => 'error',
+				'error' => $error
+			));
+        	die();
+			
+			
+		endif;
+	}
+
 }
 
 $age_verify = new Age_Verify();
